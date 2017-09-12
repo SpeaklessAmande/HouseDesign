@@ -35,7 +35,7 @@ class supply(models.Model):
     supply_wood=models.IntegerField(null=True,verbose_name='木材单价')
     supply_floor=models.IntegerField(null=True,verbose_name='地板单价')
     supply_name=models.CharField(max_length=20,default='',verbose_name='供应商名字')
-    supply_delete=models.IntegerField(max_length=4,choices=deleteState,default='正常',verbose_name='删除状态位')
+    supply_delete=models.IntegerField(choices=deleteState,default='正常',verbose_name='删除状态位')
 
     def __str__(self):
             return supply_id
@@ -113,9 +113,9 @@ class user(models.Model):
     user_id = models.AutoField(primary_key=True,verbose_name='用户主键')
     user_pas = models.CharField(max_length=20,verbose_name='密码')
     user_tel = models.CharField(max_length=11,verbose_name='电话')
-    user_account_id = models.ForeignKey(account,related_name='userAccountId')
-    user_designer_id = models.ForeignKey(designer,related_name='userDesignerId')
-    user_contractor_id = models.ForeignKey(constractor,related_name='userConstractorId')
+    user_account_id = models.ForeignKey(account,related_name='userAccountId',null=True)
+    user_designer_id = models.ForeignKey(designer,related_name='userDesignerId',null=True)
+    user_contractor_id = models.ForeignKey(constractor,related_name='userConstractorId',null=True)
 
     def __str__(self):
             return user_id
