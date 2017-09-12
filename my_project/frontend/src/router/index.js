@@ -4,13 +4,29 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import Hello from '../components/Hello.vue'
-
+import Login from '../components/Login.vue'
+import Navbar from '../components/Navbar.vue'
+import OrderDetails from '../components/OrderDetails.vue'
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/home',
+      components: {
+        top: Navbar,
+        default: Hello
+      }
+    },
+    {
+      path: '/order/:id',
+      components: {
+        top: Navbar,
+        default: OrderDetails
+      }
     }
   ]
 })
