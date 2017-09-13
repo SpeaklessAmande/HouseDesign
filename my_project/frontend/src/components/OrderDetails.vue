@@ -123,7 +123,7 @@ export default{
     submit_comment () {
       var self = this
       // need certain URL
-      if (self.comment_input.length === 0){
+      if (self.comment_input.length === 0) {
         self.$message('输入不能为空')
       } else {
         axios.post('/back/unknown', {
