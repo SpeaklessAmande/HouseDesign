@@ -87,6 +87,7 @@ def login(request):
                 user_list.append({'user_id':user_item.user_id,'user_name':user_name,'user_type':user_type})
 
             return Response(user_list,status=status.HTTP_200_OK) 
+    
     return  Response(status=status.HTTP_204_NO_CONTENT)
 
 def getCommentList(build_id,user_id):
