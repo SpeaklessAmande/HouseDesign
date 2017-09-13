@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^user/', views.UserList.as_view()),
     url(r'^user/(?P<pk>[0-9]+)$',views.UserDetail.as_view()),
     url(r'^supplyInfo/',views.get_all_supplyinfo.as_view()),
+    url(r'^supplyInfo/(?P<pk>[0-9]+)$',views.get_one_supplyinfo.as_view()),
+    url(r'^userCost/(?P<pk>[0-9]+)$',views.get_bill),
     url(r'^account/',views.AccountList.as_view()),
     url(r'^login/$',views.login),
 ]
