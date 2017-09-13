@@ -13,9 +13,9 @@
           </router-link>
           <router-link :to="'/blueprintList'" class="text">
             <el-menu-item index="2-2" v-if="$store.state.user_type == 'contractor'">参与竞标</el-menu-item>
-          </route-link>
+          </router-link>
           <router-link :to="'/boundList'" class="text">
-            <el-menu-item index="2-3"><route-link>账户明细</el-menu-item>
+            <el-menu-item index="2-3">账户明细</el-menu-item>
           </router-link>
         </el-submenu>
       </el-col>
