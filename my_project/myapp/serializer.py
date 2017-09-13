@@ -9,8 +9,7 @@ class userSerializer(serializers.ModelSerializer):
         model = user
         fields = ('user_id','user_pas','user_tel','user_account_id','user_designer_id','user_contractor_id')
 
-class supplySerializder(serializers.ModelSerializer):
-      
+class supplySerializer(serializers.ModelSerializer):     
     class Meta:
         model = supply
         fields = ('supply_id','supply_light','supply_tel','supply_wood','supply_floor','supply_name','supply_furniture','supply_delete')
