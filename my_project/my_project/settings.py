@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 #引入rest_framework框架
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        #'rest_framework.permissions.IsAdminUser',
     ],
     'PAGE_SIZE': 10
 }
