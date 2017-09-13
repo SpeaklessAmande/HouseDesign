@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    // import axios from 'axios'
+    import axios from 'axios'
     export default {
       data () {
         return {
@@ -30,6 +30,26 @@
             account: '',
             password: ''
           }
+        }
+      },
+      methods: {
+        login () {
+          var self = this
+          console.log(self.form.account)
+          axios.post('/back/login/', {
+            admin_tel: self.form.account,
+            admin_pas: self.form.password
+          }).then(function (response) {
+            self.$message('登录成功')
+            self.$store.state.user_id = response.data['user_id']
+            self.$store.state.user_type = response.data['user_type']
+            self.$store.state.user_name = response.data['user_name']
+            self.$router.push('/home')
+            self.$router.go(1)
+          }).catch(e => {
+            self.$message('账号或者密码错误，请重新输入')
+            this.errors.push(e)
+          })
         }
       }
     }
