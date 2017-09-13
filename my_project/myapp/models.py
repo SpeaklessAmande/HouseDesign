@@ -22,6 +22,7 @@ class constractor(models.Model):
 
     def __str__(self):
             return str(self.contractor_id)
+
     class Meta:
         verbose_name = '承包商'
         verbose_name_plural = '承包商'
