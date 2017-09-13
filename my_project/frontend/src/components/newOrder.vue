@@ -6,31 +6,31 @@
       <el-row type="flex" justify="center">
           <el-form :model="ruleForm" label-width="100px">
             <el-form-item label="订单名称">
-            <el-input placeholder="请输入内容" v-model="formInline.car_num" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_name" >
             </el-input>
             </el-form-item>
             <el-form-item label="账户ID">
-            <el-input placeholder="请输入内容" v-model="formInline.car_model_id" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_account_id" >
             </el-input>
             </el-form-item>
             <el-form-item label="设计师">
-            <el-input placeholder="请输入内容" v-model="formInline.car_color" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_designer" >
 
             </el-input>
             </el-form-item>
             <el-form-item label="蓝图URL">
-            <el-input placeholder="请输入内容" v-model="formInline.car_engine_num" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_blueprint" >
 
             </el-input>
             </el-form-item>
             <el-form-item label="设计费">
-            <el-input placeholder="请输入内容" v-model="formInline.car_frame_num" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_blueprint_price" >
 
             </el-input>
             </el-form-item>
             <el-form-item label="创建时间">
                     <el-date-picker
-      v-model="formInline.car_buy_date"
+      v-model="formInline.build_date"
       type="date"
       :picker-options="pickerOptions0">
     </el-date-picker>
@@ -38,22 +38,22 @@
             </el-input>
             </el-form-item>
             <el-form-item label="木材估量">
-            <el-input placeholder="请输入内容" v-model="formInline.car_retailer" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_wood" >
 
             </el-input>
             </el-form-item>
             <el-form-item label="灯具估量">
-            <el-input placeholder="请输入内容" v-model="formInline.car_status" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_light" >
 
             </el-input>
             </el-form-item>
             <el-form-item label="地板估量">
-            <el-input placeholder="请输入内容" v-model="formInline.car_ins_num" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_floor" >
                
             </el-input>
             </el-form-item>
             <el-form-item label="地板估量">
-            <el-input placeholder="请输入内容" v-model="formInline.car_ins_num" >
+            <el-input placeholder="请输入内容" v-model="formInline.build_furniture" >
                   
             </el-input>
             </el-form-item>
@@ -73,16 +73,16 @@ export default{
   data () {
     return {
       formInline: {
-        car_num: '',
-        car_model_id: '',
-        car_color: '',
-        car_engine_num: '',
-        car_frame_num: '',
-        car_buy_date: '',
-        car_retailer: '',
-        car_status: '',
-        car_ins_num: '',
-        car_creater: ''
+        build_name: '',
+        build_account_id: '',
+        build_designer: '',
+        build_blueprint: '',
+        build_blueprint_price: '',
+        build_date: '',
+        build_wood: '',
+        build_light: '',
+        build_floor: '',
+        build_furniture: ''
       }
     }
   },
@@ -90,18 +90,17 @@ export default{
     addCar () {
       var self = this
       console.log(self.form.account)
-      axios.post('/test/car/', {
-        status: 'add',
-        car_num: self.formInline.car_num,
-        car_model_id: self.formInline.car_model_id,
-        car_color: self.formInline.car_color,
-        car_engine_num: self.formInline.car_engine_num,
-        car_frame_num: self.formInline.car_frame_num,
-        car_buy_date: self.formInline.car_buy_date,
-        car_retailer: self.formInline.car_retailer,
-        car_status: self.formInline.car_status,
-        car_ins_num: self.formInline.car_ins_num,
-        car_creater: self.$store.state.user_ID
+      axios.post('/back/order/', {
+        build_name: self.formInline.build_name,
+        build_account_id: self.formInline.build_account_id,
+        build_designer: self.formInline.build_designer,
+        build_blueprint: self.formInline.build_blueprint,
+        build_blueprint_price: self.formInline.build_blueprint_price,
+        build_date: self.formInline.build_date,
+        build_wood: self.formInline.build_wood,
+        build_light: self.formInline.build_light,
+        build_floor: self.formInline.build_floor,
+        build_furniture: self.formInline.build_furniture
       })
             .then(function (response) {
               self.$message('添加成功')
