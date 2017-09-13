@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^supplyInfo/',views.get_all_supplyinfo.as_view()),
     url(r'^account/',views.AccountList.as_view()),
     url(r'^login/$',views.login),
+    url(r'^blueprint/$',views.blueprint_first),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

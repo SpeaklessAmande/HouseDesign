@@ -56,4 +56,69 @@ def login(request):
 
             return Response(user_list,status=status.HTTP_200_OK) 
     
-    return  Response(status=status.HTTP_404_NOT_FOUND)
+    return  Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET','POST'])
+def blueprint_first(request):
+    if (request.method == 'POST'):
+        build_id = request.data['build_id']
+        user_id = request.data['user_id']
+        user_type = request.data['user_type']
+        if (user_type == 'account'):
+            #build_object = build.objects.get(pk=build_id)
+            #log_object = 
+            for log_item in log.objects.all():
+                if(log_item.log_build_id.build_id == build_id):
+                    log_object = log_item
+                    break
+            print(log_item.log_tender)
+            log_result = logSerializer(log_item)
+            result = []
+            #先添加竞标节点信息
+            result.append(log_result.data)
+            comment_list = []
+            i=1
+            for comment_item in comment.objects.all():
+                if(comment_item.comment_build_id.build_id == build_id and i<=6):
+                    comment_list.append(comment_item)
+                    i = i + 1 
+
+            print(comment_list)
+            comment_result = commentSerializer(comment_list,many=True)
+            result.append(comment_result.data)
+           
+            #再添加评论信息
+            build_object = build.objects.get(pk=build_id)
+            build_item = buildSerializer(build_object)
+            result.append(build_item.data)
+            return Response(result,status=status.HTTP_200_OK)
+        elif (user_type == 'designer'):
+            result = []
+            comment_list = []
+            i=1
+            for comment_item in comment.objects.all():
+                if(comment_item.comment_build_id.build_id == build_id and i<=6):
+                    comment_list.append(comment_item)
+                    i = i + 1 
+
+            print(comment_list)
+            comment_result = commentSerializer(comment_list,many=True)
+            result.append(comment_result.data)
+           
+            #再添加评论信息
+            build_object = build.objects.get(pk=build_id)
+            build_item = buildSerializer(build_object)
+            result.append(build_item.data)
+            return Response(result,status=status.HTTP_200_OK)
+        elif (user_type == 'constractor'):
+            result_constractor = []
+            supply_list = supply.objects().all()
+            supply_result = supplySerializer(supply_list,many=True)
+            result_constractor.append(supply_result.data)
+            build_object = build.objects.get(pk=build_id)
+            build_item = buildSerializer(build_object)
+            result_constractor.append(build_item.data)
+            return Response(result_constractor,status=status.HTTP_200_OK)
+            #   build = 
+            #根据订单id查询所有供应商的所有信息
+    return  Response(status=status.HTTP_204_NO_CONTENT)

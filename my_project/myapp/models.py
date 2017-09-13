@@ -21,7 +21,7 @@ class constractor(models.Model):
     constractor_delete=models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='承包商删除位')
 
     def __str__(self):
-            return str(self.contractor_id)
+            return str(self.constractor_id)
 
     class Meta:
         verbose_name = '承包商'
@@ -85,7 +85,7 @@ class build(models.Model):
     build_furniture = models.IntegerField(null=True,verbose_name='家具估量')
     build_supply = models.ForeignKey(supply,related_name='buildSupplyId',null=True)
     build_contractor = models.ForeignKey(constractor,related_name='buildContractorId',null=True)
-    record_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
+    build_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
     
     def __str__(self):
         return str(self.build_account_id)
