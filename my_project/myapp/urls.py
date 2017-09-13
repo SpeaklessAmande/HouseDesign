@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^userCost/(?P<pk>[0-9]+)$',views.get_bill),
     url(r'^account/',views.AccountList.as_view()),
     url(r'^login/$',views.login),
+    url(r'^blueprint/$',views.blueprint_first),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
