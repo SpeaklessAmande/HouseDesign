@@ -46,7 +46,7 @@ def get_bill(request,pk,format=None):
             except:
                 try:
                     user_money = contractor.objects.get(pk=userrelated['user_contractor_id'])
-                    user_money = constractorSerializer(user_money).data
+                    user_money = contractorSerializer(user_money).data
                 except:
                     user_money = dict()
     return Response(user_money,status.HTTP_200_OK)
@@ -79,16 +79,40 @@ def login(request):
                     user_type = 'account'
                     account_object = account.objects.get(pk=user_item.user_account_id.account_id)
                     user_name = account_object.account_name
-                elif user_item.user_constractor_id:#承包商
-                    user_type = 'constractor'
-                    constractor_object = constractor.objects.get(pk=user_item.user_constractor_id.constractor_id)
-                    user_name = constractor_object.costractor_name
+                elif user_item.user_contractor_id:#承包商
+                    user_type = 'contractor'
+                    contractor_object = contractor.objects.get(pk=user_item.user_contractor_id.contractor_id)
+                    user_name = contractor_object.costractor_name
                 #对返回数据的格式处理
                 user_list.append({'user_id':user_item.user_id,'user_name':user_name,'user_type':user_type})
 
             return Response(user_list,status=status.HTTP_200_OK) 
     
     return  Response(status=status.HTTP_204_NO_CONTENT)
+
+def getCommentList(build_id,user_id):
+    build_id = self.build_id
+    user_id = self.user_id
+    comment_list = []
+    i=1
+    for comment_item in comment.objects.all():
+        if(comment_item.comment_build_id.build_id == build_id and i<=6):
+            comment = {}
+            if comment_item.comment_user_id.user_account_id.user_id:
+               user_type = 'account'
+               comment_name = account.objects.get(pk=comment_item.comment_user_id.user_account_id.user_id).account_name
+            elif comment_item.comment_user_id.user_designer_id.user_id:
+                user_type = 'designer'
+                comment_name = designer.objects.get(pk=comment_item.comment_build_id.user_designer_id.user_id).designer_name
+            
+            comment_end_item['user_type'] = user_type
+            comment_end_item['comment_name'] = comment_name
+            comment_end_item['comment_content'] = comment_item.comment_content
+            comment_list.append(comment_end_item)
+            i = i + 1 
+
+    print(comment_list)
+    return comment_list
 
 @api_view(['GET','POST'])
 def blueprint_first(request):
@@ -108,16 +132,9 @@ def blueprint_first(request):
             result = []
             #先添加竞标节点信息
             result.append(log_result.data)
-            comment_list = []
-            i=1
-            for comment_item in comment.objects.all():
-                if(comment_item.comment_build_id.build_id == build_id and i<=6):
-                    comment_list.append(comment_item)
-                    i = i + 1 
-
-            print(comment_list)
-            comment_result = commentSerializer(comment_list,many=True)
-            result.append(comment_result.data)
+            
+            #comment_result = commentSerializer(comment_list,many=True)
+            result.append(getCommentList(build_id,user_id))
            
             #再添加评论信息
             build_object = build.objects.get(pk=build_id)
@@ -126,32 +143,25 @@ def blueprint_first(request):
             return Response(result,status=status.HTTP_200_OK)
         elif (user_type == 'designer'):
             result = []
-            comment_list = []
-            i=1
-            for comment_item in comment.objects.all():
-                if(comment_item.comment_build_id.build_id == build_id and i<=6):
-                    comment_list.append(comment_item)
-                    i = i + 1 
-
-            print(comment_list)
-            comment_result = commentSerializer(comment_list,many=True)
-            result.append(comment_result.data)
+            #返回评论的信息：用户名、评论内容
+            
+            #comment_result = commentSerializer(getComm,many=True)
+            result.append(getCommentList(build_id,user_id))
            
             #再添加评论信息
             build_object = build.objects.get(pk=build_id)
             build_item = buildSerializer(build_object)
             result.append(build_item.data)
             return Response(result,status=status.HTTP_200_OK)
-        elif (user_type == 'constractor'):
-            result_constractor = []
+        elif (user_type == 'contractor'):
+            result_contractor = []
             supply_list = supply.objects().all()
             supply_result = supplySerializer(supply_list,many=True)
-            result_constractor.append(supply_result.data)
+            result_contractor.append(supply_result.data)
             build_object = build.objects.get(pk=build_id)
             build_item = buildSerializer(build_object)
-            result_constractor.append(build_item.data)
-            return Response(result_constractor,status=status.HTTP_200_OK)
+            result_contractor.append(build_item.data)
+            return Response(result_contractor,status=status.HTTP_200_OK)
             #   build = 
             #根据订单id查询所有供应商的所有信息
     return  Response(status=status.HTTP_204_NO_CONTENT)
-    return  Response(status=status.HTTP_404_NOT_FOUND)

@@ -3,9 +3,9 @@ from .models import *
 # Register your models here.
 
 
-class constractorAdmin(admin.ModelAdmin):
-    list_display = ('constractor_id',)
-    list_filter = ('constractor_name','constractor_price',)
+class contractorAdmin(admin.ModelAdmin):
+    list_display = ('contractor_id',)
+    list_filter = ('contractor_name','contractor_price',)
 
 class supplyAdmin(admin.ModelAdmin):
     list_display = ('supply_id',)
@@ -41,7 +41,7 @@ class bidAdmin(admin.ModelAdmin):
     list_filter = ()
 
 
-admin.site.register(constractor,constractorAdmin)
+admin.site.register(contractor,contractorAdmin)
 admin.site.register(supply,supplyAdmin)
 admin.site.register(designer,designerAdmin)
 admin.site.register(account,accountAdmin)

@@ -35,7 +35,6 @@
       methods: {
         login () {
           var self = this
-          console.log(self.form.account)
           axios.post('/back/login/', {
             user_tel: self.form.account,
             user_pas: self.form.password
