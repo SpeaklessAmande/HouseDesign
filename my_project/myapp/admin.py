@@ -36,6 +36,10 @@ class commentAdmin(admin.ModelAdmin):
     list_display = ('comment_id',)
     list_filter = ()
 
+class bidAdmin(admin.ModelAdmin):
+    list_display = ('bid_id',)
+    list_filter = ()
+
 
 admin.site.register(constractor,constractorAdmin)
 admin.site.register(supply,supplyAdmin)
@@ -45,3 +49,4 @@ admin.site.register(build,buildAdmin)
 admin.site.register(log,logAdmin)
 admin.site.register(user,userAdmin)
 admin.site.register(comment,commentAdmin)
+admin.site.register(bid,bidAdmin)
