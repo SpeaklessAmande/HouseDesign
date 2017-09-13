@@ -41,9 +41,9 @@
             user_pas: self.form.password
           }).then(function (response) {
             self.$message('登录成功')
-            self.$store.state.user_id = response.data['user_id']
-            self.$store.state.user_type = response.data['user_type']
-            self.$store.state.user_name = response.data['user_name']
+            self.$store.state.user_id = response.data[0]['user_id']
+            self.$store.state.user_type = response.data[0]['user_type']
+            self.$store.state.user_name = response.data[0]['user_name']
             self.$router.push('/home')
             self.$router.go(1)
           }).catch(e => {
