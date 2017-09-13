@@ -83,6 +83,12 @@ class build(models.Model):
     build_light = models.IntegerField(null=True,verbose_name='灯具估量')
     build_floor = models.IntegerField(null=True,verbose_name='地板估量')
     build_furniture = models.IntegerField(null=True,verbose_name='家具估量')
+    #新添加项
+    build_wood_price = models.IntegerField(null=True,verbose_name='木材实价')
+    build_light_price = models.IntegerField(null=True,verbose_name='灯具实价')
+    build_floor_price = models.IntegerField(null=True,verbose_name='地板实价')
+    build_furniture_price = models.IntegerField(null=True,verbose_name='家具实价')
+
     build_supply = models.ForeignKey(supply,related_name='buildSupplyId',null=True)
     build_contractor = models.ForeignKey(constractor,related_name='buildContractorId',null=True)
     record_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
@@ -98,9 +104,9 @@ class build(models.Model):
 class log(models.Model):
     log_id = models.IntegerField(primary_key=True,verbose_name='日志id')
     log_build_id =models.ForeignKey(build,null=True,related_name='buildId')
-    log_tender = models.DateTimeField(verbose_name='招标节点')
-    log_construction = models.DateTimeField(verbose_name='施工时间节点')
-    log_accept = models.DateTimeField(verbose_name='验收时间节点')
+    log_tender = models.DateField(default='1970-01-01',verbose_name='招标节点')
+    log_construction = models.DateField(default='1970-01-01',verbose_name='施工时间节点')
+    log_accept = models.DateField(default='1970-01-01',verbose_name='验收时间节点')
     def __str__(self):
         return str(self.log_id)
 
