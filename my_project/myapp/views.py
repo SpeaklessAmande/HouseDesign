@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
 from .models import *
 from .serializer import *
+import datetime
 # Create your views here.
 
 class UserList(generics.ListCreateAPIView):
@@ -89,21 +90,22 @@ def login(request):
             return Response(user_list,status=status.HTTP_200_OK) 
     
     return  Response(status=status.HTTP_204_NO_CONTENT)
-
+#{"build_id":1,"user_id":1,"user_type":"account"}
 def getCommentList(build_id,user_id):
-    build_id = self.build_id
-    user_id = self.user_id
+    #build_id = self.build_id
+    #user_id = self.user_id
     comment_list = []
     i=1
+    print(comment.objects.all())
     for comment_item in comment.objects.all():
         if(comment_item.comment_build_id.build_id == build_id and i<=6):
-            comment = {}
-            if comment_item.comment_user_id.user_account_id.user_id:
+            comment_end_item = {}
+            if comment_item.comment_user_id.user_account_id.account_id:
                user_type = 'account'
-               comment_name = account.objects.get(pk=comment_item.comment_user_id.user_account_id.user_id).account_name
-            elif comment_item.comment_user_id.user_designer_id.user_id:
+               comment_name = account.objects.get(pk=comment_item.comment_user_id.user_account_id.account_id).account_name
+            elif comment_item.comment_user_id.user_designer_id.designer_id:
                 user_type = 'designer'
-                comment_name = designer.objects.get(pk=comment_item.comment_build_id.user_designer_id.user_id).designer_name
+                comment_name = designer.objects.get(pk=comment_item.comment_build_id.user_designer_id.designer_id).designer_name
             
             comment_end_item['user_type'] = user_type
             comment_end_item['comment_name'] = comment_name
@@ -122,20 +124,26 @@ def blueprint_first(request):
         user_type = request.data['user_type']
         if (user_type == 'account'):
             #build_object = build.objects.get(pk=build_id)
-            #log_object = 
+            log_object = None
             for log_item in log.objects.all():
                 if(log_item.log_build_id.build_id == build_id):
                     log_object = log_item
                     break
-            print(log_item.log_tender)
-            log_result = logSerializer(log_item)
+            node = 1
+            if(log_object.log_accept != '1970-01-01'):
+                node = 3
+            elif(log_object.log_construction != '1970-01-01'):
+                node = 2
+            print(log_object.log_accept)
+            print(node)
+            #log_result = logSerializer(log_object)
             result = []
             #先添加竞标节点信息
-            result.append(log_result.data)
-            
+            result.append(node)
+
             #comment_result = commentSerializer(comment_list,many=True)
             result.append(getCommentList(build_id,user_id))
-           
+            #result.append(comment_list)
             #再添加评论信息
             build_object = build.objects.get(pk=build_id)
             build_item = buildSerializer(build_object)
@@ -155,7 +163,7 @@ def blueprint_first(request):
             return Response(result,status=status.HTTP_200_OK)
         elif (user_type == 'contractor'):
             result_contractor = []
-            supply_list = supply.objects().all()
+            supply_list = supply.objects.all()
             supply_result = supplySerializer(supply_list,many=True)
             result_contractor.append(supply_result.data)
             build_object = build.objects.get(pk=build_id)
