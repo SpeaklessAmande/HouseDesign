@@ -1,7 +1,7 @@
 <template>
 
 <el-row class="singlerow">
-  <el-col :span="6" v-for="(o,index) in 6" :key="o" :offset="index%3 > 0 ? 3 : 0" class="blueprint">
+  <el-col :span="6" v-for="(o,index) in order" :key="o" :offset="index%3 > 0 ? 3 : 0" class="blueprint">
     <el-card :body-style="{ padding: '0px' }">
       <router-link :to="'/order/'+ o" >
         <img src="../assets/logo.png"  class="image">
@@ -9,7 +9,7 @@
       <div>
         <div class="bottom clearfix">
           
-          <el-button v-if="$store.state.user_type=='account'" type="text" class="button">参与竞标</el-button>
+          <!-- <el-button v-if="$store.state.user_type=='account'" type="text" class="button">参与竞标</el-button> -->
           <time class="time">{{ currentDate }}</time>
         </div>
       </div>
@@ -18,7 +18,29 @@
 </el-row>
 
 </template>
+<script>
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      currentDate: new Date(),
+      order: ['1', '2', '5']
+    }
+  },
+  created () {
+    var self = this
+    var id = $store.state.user_id
+    axios.get('/back/joinOrder', {'user_id':id})
+    .then(function (response) {
+      self.order = response.data
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+  }
 
+}
+</script>
 <style>
   .time {
     font-size: 13px;
@@ -53,13 +75,3 @@
     padding: 30px;
   }
 </style>
-
-<script>
-export default {
-  data () {
-    return {
-      currentDate: new Date()
-    }
-  }
-}
-</script>

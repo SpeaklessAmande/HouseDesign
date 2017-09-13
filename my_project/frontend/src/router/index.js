@@ -10,6 +10,7 @@ import OrderDetails from '../components/OrderDetails.vue'
 import supplyList from '../components/supplyList.vue'
 import boundList from '../components/boundList.vue'
 import blueprintList from '../components/blueprintList.vue'
+import newOrder from '../components/newOrder.vue'
 export default new Router({
   routes: [
     {
@@ -50,6 +51,13 @@ export default new Router({
       components: {
         top: Navbar,
         default: blueprintList
+      }
+    },
+    {
+      path: '/newOrder',
+      components: {
+        top: Navbar,
+        default: newOrder
       }
     }
   ]
