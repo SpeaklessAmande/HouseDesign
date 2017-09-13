@@ -8,6 +8,8 @@ import Login from '../components/Login.vue'
 import Navbar from '../components/Navbar.vue'
 import OrderDetails from '../components/OrderDetails.vue'
 import supplyList from '../components/supplyList.vue'
+import boundList from '../components/boundList.vue'
+import blueprintList from '../components/blueprintList.vue'
 export default new Router({
   routes: [
     {
@@ -30,10 +32,24 @@ export default new Router({
       }
     },
     {
-      path: '/home',
+      path: '/supplyList',
       components: {
         top: Navbar,
         default: supplyList
+      }
+    },
+    {
+      path: '/boundList',
+      components: {
+        top: Navbar,
+        default: boundList
+      }
+    },
+    {
+      path: '/blueprintList',
+      components: {
+        top: Navbar,
+        default: blueprintList
       }
     }
   ]

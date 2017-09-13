@@ -32,11 +32,11 @@ class commentSerializer(serializers.ModelSerializer):
         model=comment 
         fields=('comment_id','comment_content','comment_time','comment_build_id','comment_user_id')
 
-class constractorSerializer(serializers.ModelSerializer):
+class contractorSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model=constractor 
-        fields=('constractor_id','constractor_name','constractor_money','constractor_delete')
+        model=contractor 
+        fields=('contractor_id','contractor_name','contractor_money','contractor_delete')
 
 class designerSerializer(serializers.ModelSerializer):
 

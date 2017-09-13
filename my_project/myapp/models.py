@@ -13,12 +13,12 @@ deleteState = (
 )
 
 #承包商表
-class constractor(models.Model):
-    constractor_id=models.AutoField(primary_key=True,verbose_name='承包商ID')
-    constractor_name=models.CharField(max_length=20,default='',verbose_name='承包商名称')
-    constractor_price=models.IntegerField(null=True,verbose_name='承包商工费')
-    constractor_money=models.IntegerField(null=True,verbose_name='承包商花销')
-    constractor_delete=models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='承包商删除位')
+class contractor(models.Model):
+    contractor_id=models.AutoField(primary_key=True,verbose_name='承包商ID')
+    contractor_name=models.CharField(max_length=20,default='',verbose_name='承包商名称')
+    contractor_price=models.IntegerField(null=True,verbose_name='承包商工费')
+    contractor_money=models.IntegerField(null=True,verbose_name='承包商花销')
+    contractor_delete=models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='承包商删除位')
 
     def __str__(self):
             return str(self.contractor_id)
@@ -83,9 +83,15 @@ class build(models.Model):
     build_light = models.IntegerField(null=True,verbose_name='灯具估量')
     build_floor = models.IntegerField(null=True,verbose_name='地板估量')
     build_furniture = models.IntegerField(null=True,verbose_name='家具估量')
+    #新添加项
+    build_wood_price = models.IntegerField(null=True,verbose_name='木材实价')
+    build_light_price = models.IntegerField(null=True,verbose_name='灯具实价')
+    build_floor_price = models.IntegerField(null=True,verbose_name='地板实价')
+    build_furniture_price = models.IntegerField(null=True,verbose_name='家具实价')
+
     build_supply = models.ForeignKey(supply,related_name='buildSupplyId',null=True)
-    build_contractor = models.ForeignKey(constractor,related_name='buildContractorId',null=True)
-    record_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
+    build_contractor = models.ForeignKey(contractor,related_name='buildcontractorId',null=True)
+    build_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
     
     def __str__(self):
         return str(self.build_account_id)
@@ -95,12 +101,13 @@ class build(models.Model):
         verbose_name_plural = '订单表项'
 
 #log表
+#待改、时间节点为空方便判断
 class log(models.Model):
     log_id = models.IntegerField(primary_key=True,verbose_name='日志id')
     log_build_id =models.ForeignKey(build,null=True,related_name='buildId')
-    log_tender = models.DateTimeField(verbose_name='招标节点')
-    log_construction = models.DateTimeField(verbose_name='施工时间节点')
-    log_accept = models.DateTimeField(verbose_name='验收时间节点')
+    log_tender = models.DateField(default='1970-01-01',verbose_name='招标节点')
+    log_construction = models.DateField(default='1970-01-01',verbose_name='施工时间节点')
+    log_accept = models.DateField(default='1970-01-01',verbose_name='验收时间节点')
     def __str__(self):
         return str(self.log_id)
 
@@ -116,7 +123,7 @@ class user(models.Model):
     user_tel = models.CharField(max_length=11,verbose_name='电话')
     user_account_id = models.ForeignKey(account,related_name='userAccountId',null=True)
     user_designer_id = models.ForeignKey(designer,related_name='userDesignerId',null=True)
-    user_contractor_id = models.ForeignKey(constractor,related_name='userConstractorId',null=True)
+    user_contractor_id = models.ForeignKey(contractor,related_name='usercontractorId',null=True)
 
     def __str__(self):
             return self.user_tel
@@ -128,7 +135,7 @@ class user(models.Model):
 class comment(models.Model):
     comment_id = models.AutoField(primary_key=True,verbose_name='评论id')
     comment_content = models.CharField(max_length=255,verbose_name='内容')
-    comment_time = models.DateTimeField(verbose_name='评论时间')
+    comment_time = models.DateTimeField(auto_now_add=True,verbose_name='评论时间')
     comment_build_id = models.ForeignKey(build,related_name='commentBuildId')
     comment_user_id = models.ForeignKey(user,related_name='commentUserId')
 
@@ -141,7 +148,7 @@ class comment(models.Model):
 #竞标
 class bid(models.Model):
     bid_id = models.AutoField(primary_key=True,verbose_name='竞标id')
-    bid_contractor_id = models.ForeignKey(constractor,related_name='bidContractorId')
+    bid_contractor_id = models.ForeignKey(contractor,related_name='bidcontractorId')
     bid_build_id = models.ForeignKey(build,related_name='bidBuildId')
 
     def __str__(self):
