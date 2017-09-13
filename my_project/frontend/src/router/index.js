@@ -7,6 +7,7 @@ import Hello from '../components/Hello.vue'
 import Login from '../components/Login.vue'
 import Navbar from '../components/Navbar.vue'
 import OrderDetails from '../components/OrderDetails.vue'
+import supplyList from '../components/supplyList.vue'
 export default new Router({
   routes: [
     {
@@ -26,6 +27,13 @@ export default new Router({
       components: {
         top: Navbar,
         default: OrderDetails
+      }
+    },
+    {
+      path: '/home',
+      components: {
+        top: Navbar,
+        default: supplyList
       }
     }
   ]
