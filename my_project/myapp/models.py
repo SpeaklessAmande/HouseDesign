@@ -21,7 +21,8 @@ class constractor(models.Model):
     constractor_delete=models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='承包商删除位')
 
     def __str__(self):
-            return self.contractor_id
+            return str(self.contractor_id)
+
     class Meta:
         verbose_name = '承包商'
         verbose_name_plural = '承包商'
@@ -38,7 +39,7 @@ class supply(models.Model):
     supply_delete=models.IntegerField(choices=deleteState,default='正常',verbose_name='删除状态位')
 
     def __str__(self):
-            return self.supply_id
+            return str(self.supply_id)
     class Meta:
         verbose_name = '供应商'
         verbose_name_plural = '供应商'
@@ -50,7 +51,7 @@ class designer(models.Model):
     designer_money = models.IntegerField(verbose_name='总花销')
 
     def __str__(self):
-        return self.designer_id
+        return str(self.designer_id)
     class Meta:
         verbose_name = '设计师'
         verbose_name_plural = '设计人员'
@@ -63,7 +64,7 @@ class account(models.Model):
     account_layout=models.IntegerField(null=True,verbose_name='总花销')
 
     def __str__(self):
-            return self.account_id
+            return str(self.account_id)
     class Meta:
         verbose_name = '账户'
         verbose_name_plural = '账户'
@@ -87,7 +88,7 @@ class build(models.Model):
     record_delete_status = models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='删除')
     
     def __str__(self):
-        return self.build_account_id
+        return str(self.build_account_id)
     
     class Meta:
         verbose_name = '订单表'
@@ -101,7 +102,7 @@ class log(models.Model):
     log_construction = models.DateTimeField(verbose_name='施工时间节点')
     log_accept = models.DateTimeField(verbose_name='验收时间节点')
     def __str__(self):
-        return self.log_id
+        return str(self.log_id)
 
     class Meta:
         verbose_name = 'log'
@@ -118,7 +119,7 @@ class user(models.Model):
     user_contractor_id = models.ForeignKey(constractor,related_name='userConstractorId',null=True)
 
     def __str__(self):
-            return self.user_id
+            return self.user_tel
     class Meta:
         verbose_name = '用户'
         verbose_name_plural = '用户表'
@@ -132,9 +133,20 @@ class comment(models.Model):
     comment_user_id = models.ForeignKey(user,related_name='commentUserId')
 
     def __str__(self):
-            return self.comment_id
+            return str(self.comment_id)
     class Meta:
         verbose_name = '评论'
         verbose_name_plural = '评论'
 
+#竞标
+class bid(models.Model):
+    bid_id = models.AutoField(primary_key=True,verbose_name='竞标id')
+    bid_contractor_id = models.ForeignKey(constractor,related_name='bidContractorId')
+    bid_build_id = models.ForeignKey(build,related_name='bidBuildId')
 
+    def __str__(self):
+        return str(self.bid_id)
+
+    class Meta:
+        verbose_name = '竞标'
+        verbose_name_plural = '竞标'
