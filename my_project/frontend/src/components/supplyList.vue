@@ -16,23 +16,33 @@
       width="50">
     </el-table-column>
     <el-table-column
-      property="date"
+      prop="supply_name"
       label="供应商名称"
       width="120">
     </el-table-column>
     <el-table-column
-      property="name"
+      prop="account_tel"
       label="联系方式"
       width="120">
     </el-table-column>
     <el-table-column
-      property="address"
+      prop="supply_light"
       label="灯具单价"
-      width="240">
+      width="120">
     </el-table-column>
     <el-table-column
-      property="addres"
-      label="家具单价">
+      prop="supply_furniture"
+      label="家具单价"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="supply_wood"
+      label="木材估量"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      property="supply_floor"
+      label="地板估量">
     </el-table-column>
  
 
@@ -42,32 +52,24 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     data () {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          addres: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          addres: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          addres: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          addres: '上海市普陀区金沙江路 1518 弄'
-        }],
+        tableData: [],
         currentRow: null
       }
+    },
+    created () {
+      var self = this
+      axios.get('/back/supplyInfo', {})
+      .then(function (response) {
+        self.tableData = response.data.results
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
+      console.log(self.tableData.results)
     },
 
     methods: {
