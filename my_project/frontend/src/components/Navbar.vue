@@ -20,7 +20,8 @@
 export default{
   methods: {
     handleLogOut () {
-      console.log('log out!')
+      this.$router.push('/')
+      this.$router.go(1)
     }
   }
 }

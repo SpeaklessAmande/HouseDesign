@@ -95,6 +95,7 @@ class build(models.Model):
         verbose_name_plural = '订单表项'
 
 #log表
+#待改、时间节点为空方便判断
 class log(models.Model):
     log_id = models.IntegerField(primary_key=True,verbose_name='日志id')
     log_build_id =models.ForeignKey(build,null=True,related_name='buildId')
