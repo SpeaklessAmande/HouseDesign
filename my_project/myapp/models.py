@@ -36,7 +36,7 @@ class supply(models.Model):
     supply_wood=models.IntegerField(null=True,verbose_name='木材单价')
     supply_floor=models.IntegerField(null=True,verbose_name='地板单价')
     supply_name=models.CharField(max_length=20,default='',verbose_name='供应商名字')
-    supply_delete=models.IntegerField(choices=deleteState,default='正常',verbose_name='删除状态位')
+    supply_delete=models.CharField(max_length=10,choices=deleteState,default='正常',verbose_name='删除状态位')
 
     def __str__(self):
             return str(self.supply_id)
