@@ -13,3 +13,40 @@ class supplySerializer(serializers.ModelSerializer):
     class Meta:
         model = supply
         fields = ('supply_id','supply_light','supply_tel','supply_wood','supply_floor','supply_name','supply_furniture','supply_delete')
+
+class buildSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=build
+        fields=('build_id','build_name','build_account_id','build_designer','build_blueprint','build_blueprint_price','build_date','build_wood','build_light','build_floor','build_furniture','build_supply','build_contractor','build_delete_status')
+
+class logSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=log
+        fields=('log_id','log_build_id','log_tender','log_construction','log_accept')
+
+class commentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=comment 
+        fields=('comment_id','comment_content','comment_time','comment_build_id','comment_user_id')
+
+class constractorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=constractor 
+        fields=('constractor_id','constractor_name','constractor_money','constractor_delete')
+
+class designerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=designer 
+        fields=('designer_id','designer_name','designer_money')
+
+class accountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=account 
+        fields=('account_id','account_name','account_layout')
+
