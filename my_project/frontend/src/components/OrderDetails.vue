@@ -19,10 +19,10 @@
         </el-row>
         <template v-if="$store.state.user_type == 'account'">
           <el-row style="margin-top: 28px;">
-            <el-steps :center="true" :active="1" finish-status="success">
-              <el-step title="已完成"></el-step>
-              <el-step title="进行中"></el-step>
-              <el-step title="步骤 3"></el-step>
+            <el-steps :center="true" :active="node_number" finish-status="success">
+              <el-step title="招标阶段"></el-step>
+              <el-step title="施工阶段"></el-step>
+              <el-step title="验收阶段"></el-step>
             </el-steps>
           </el-row>
         </template>
@@ -33,7 +33,7 @@
             </el-col>
           </el-row>
         </template>
-        <template v-if="user_type == 2">
+        <template v-if="$store.state.user_type == 'account'">
           <el-row class="btnPosition" type="flex" justify="space-around">
             <el-col :span="12">
               <el-button class="button" type="success" @click="submit_log">下一步</el-button>
@@ -114,6 +114,8 @@ export default{
         value: '选项1',
         label: '黄金糕'
       }],
+      build: {},
+      node_number: 1,
       comments: [],
       comment_input: '',
       selected_supply: ''
@@ -178,11 +180,15 @@ export default{
         build_id: self.$route.params.id
       }).then(function (response) {
         if (self.$route.state.user_type === 'account') {
+          self.node_number = response.data[0]
           self.comments = response.data[1]
+          self.build = response.data[2]
         } else if (self.$route.state.user_type === 'designer') {
-
+          self.comments = response.data[0]
+          self.build = response.data[1]
         } else if (self.$route.state.user_type === 'contractor') {
-
+          self.supplys = response.data[0]
+          self.build = response.data[1]
         }
       }).catch(e => {
         self.$message('cant get anything')
