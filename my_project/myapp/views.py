@@ -13,3 +13,9 @@ class UserList(generics.ListCreateAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = user.objects.all()
     serializer_class = userSerializer
+
+#提供url接口 ./supplyInfo
+class get_all_supplyinfo(generics.ListCreateAPIView):
+    queryset = supply.objects.all()
+    serializers_class = supplySerializer
+

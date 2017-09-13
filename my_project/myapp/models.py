@@ -21,7 +21,7 @@ class constractor(models.Model):
     constractor_delete=models.CharField(max_length=4,choices=deleteState,default='正常',verbose_name='承包商删除位')
 
     def __str__(self):
-            return contractor_id
+            return self.contractor_id
     class Meta:
         verbose_name = '承包商'
         verbose_name_plural = '承包商'
@@ -38,7 +38,7 @@ class supply(models.Model):
     supply_delete=models.IntegerField(choices=deleteState,default='正常',verbose_name='删除状态位')
 
     def __str__(self):
-            return supply_id
+            return self.supply_id
     class Meta:
         verbose_name = '供应商'
         verbose_name_plural = '供应商'
@@ -50,7 +50,7 @@ class designer(models.Model):
     designer_money = models.IntegerField(verbose_name='总花销')
 
     def __str__(self):
-        return designer_id
+        return self.designer_id
     class Meta:
         verbose_name = '设计师'
         verbose_name_plural = '设计人员'
@@ -63,7 +63,7 @@ class account(models.Model):
     account_layout=models.IntegerField(null=True,verbose_name='总花销')
 
     def __str__(self):
-            return account_id
+            return self.account_id
     class Meta:
         verbose_name = '账户'
         verbose_name_plural = '账户'
@@ -118,7 +118,7 @@ class user(models.Model):
     user_contractor_id = models.ForeignKey(constractor,related_name='userConstractorId',null=True)
 
     def __str__(self):
-            return user_id
+            return self.user_id
     class Meta:
         verbose_name = '用户'
         verbose_name_plural = '用户表'
@@ -132,7 +132,7 @@ class comment(models.Model):
     comment_user_id = models.ForeignKey(user,related_name='commentUserId')
 
     def __str__(self):
-            return comment_id
+            return self.comment_id
     class Meta:
         verbose_name = '评论'
         verbose_name_plural = '评论'
