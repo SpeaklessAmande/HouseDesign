@@ -10,11 +10,11 @@
         <el-row>
           <h2>图纸估算价格</h2>
           <el-card>
-            <p>灯具价格</p>
-            <p>家具价格</p>
-            <p>地板价格</p>
-            <p>木材价格</p>
-            <p>总计估价</p>
+            <p>灯具价格：<span>{{ light_price }}</span></p>
+            <p>家具价格：<span>{{ furniture_price }}</span></p>
+            <p>地板价格：<span>{{ floor_price }}</span></p>
+            <p>木材价格：<span>{{ wood_price }}</span></p>
+            <p>总计估价：<span>{{ total_price }}</span></p>
           </el-card>
         </el-row>
         <template v-if="$store.state.user_type == 'account'">
@@ -49,9 +49,9 @@
               <el-select style="width: 100%" v-model="selected_supply" placeholder="请选择">
                 <el-option
                   v-for="item in supplys"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.supply_id"
+                  :label="item.supply_name"
+                  :value="item.supply_id">
                 </el-option>
               </el-select>
               </el-col>
@@ -92,12 +92,12 @@
           <template v-if="$store.state.user_type == 'contractor'">
             <h2>图纸实际价格</h2>
             <el-card>
-              <p>灯具价格</p>
-              <p>家具价格</p>
-              <p>地板价格</p>
-              <p>木材价格</p>
-              <p>装修工费</p>
-              <p>总计实价</p>
+              <p>灯具价格：<span>{{  }}</span></p>
+              <p>家具价格：<span>{{  }}</span></p>
+              <p>地板价格：<span>{{  }}</span></p>
+              <p>木材价格：<span>{{  }}</span></p>
+              <p>装修工费：<span>{{  }}</span></p>
+              <p>总计实价：<span>{{  }}</span></p>
             </el-card>
           </template>
         </el-row>
@@ -110,15 +110,12 @@ import axios from 'axios'
 export default{
   data () {
     return {
-      supplys: [{
-        value: '选项1',
-        label: '黄金糕'
-      }],
+      supplys: [],
       build: {},
       node_number: 1,
       comments: [],
       comment_input: '',
-      selected_supply: ''
+      selected_supply: {}
     }
   },
   methods: {
@@ -169,6 +166,38 @@ export default{
         self.$message('确认失败')
         this.errors.push(e)
       })
+    }
+  },
+  computed: {
+    wood_price () {
+      return this.build['build_wood'] * this.build['build_wood_price']
+    },
+    light_price () {
+      return this.build['build_light'] * this.build['build_light_price']
+    },
+    floor_price () {
+      return this.build['build_floor'] * this.build['build_floor_price']
+    },
+    furniture_price () {
+      return this.build['build_furniture'] * this.build['build_furniture_price']
+    },
+    total_price () {
+      return this.wood_price + this.light_price + this.floor_price + this.furniture_price
+    },
+    actual_wood_price () {
+      return this.build['build_wood'] * this.selected_supply['supply_wood']
+    },
+    actual_light_price () {
+      return this.build['build_light'] * this.selected_supply['supply_light']
+    },
+    actual_floor_price () {
+      return this.build['build_floor'] * this.selected_supply['supply_floor']
+    },
+    actual_furniture_price () {
+      return this.build['build_furniture'] * this.selected_supply['supply_furniture']
+    },
+    actual_total_price () {
+      return this.actual_wood_price + this.actual_light_price + this.actual_floor_price + this.actual_furniture_price
     }
   },
   created: {
