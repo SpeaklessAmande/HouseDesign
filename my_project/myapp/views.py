@@ -41,6 +41,7 @@ def get_bill(request,pk,format=None):
             try:
                 user_money = designer.objects.get(pk=userrelated['user_designer_id'])
                 user_money = designerSerializer(user_money).data
+                user_money = build.objects.filter(build_designer=user_money['designer_id'])
             #print(user_money)
             except:
                 try:
