@@ -17,7 +17,7 @@
             <p>总计估价</p>
           </el-card>
         </el-row>
-        <template v-if="user_type == 2">
+        <template v-if="$store.state.user_type == 'account'">
           <el-row style="margin-top: 28px;">
             <el-steps :center="true" :active="1" finish-status="success">
               <el-step title="已完成"></el-step>
@@ -26,7 +26,7 @@
             </el-steps>
           </el-row>
         </template>
-        <template v-if="user_type == 1">
+        <template v-if="$store.state.user_type == 'contractor'">
           <el-row class="btnPosition" type="flex" justify="space-around">
             <el-col :span="12">
               <el-button class="button" type="warning">参与竞标</el-button>
@@ -43,8 +43,9 @@
       </el-col>
       <el-col :span="8">
         <el-row>
-          <template v-if="user_type == 1">
+          <template v-if="$store.state.user_type == 'contractor'">
               <h2>选择供应商</h2>
+              <el-col :span="20">
               <el-select style="width: 100%" v-model="value" placeholder="请选择">
                 <el-option
                   v-for="item in options"
@@ -53,15 +54,42 @@
                   :value="item.value">
                 </el-option>
               </el-select>
+              </el-col>
+              <el-col :span="4">
+                <el-button style="width: 100%" type="warning">详情</el-button>
+              </el-col>
           </template>
-          <template v-if="user_type == 2">
-            <h2>与您的<span v-if="user_type == 2">设计师</span><span v-if="user_type == 3"></span>交流</h2>
-            <el-card :body-style="{ padding: '0px' }">
+          <template v-if="$store.state.user_type == 'designer' || $store.state.user_type == 'account'">
+            <h2>与您的<span v-if="$store.state.user_type == 'account'">设计师</span><span v-if="$store.state.user_type == 'designer'">客户</span>交流</h2>
+            <el-card>
+              <div style="height: 550px;">
+              <div v-for="item in items">
+                <el-row>
+                  <el-col :span="10" :offset="item.user_type == $store.state.user_type ? 14 : 0">
+                    <span style="font-weight: bold">{{ item.user_id }}:</span>
+                    <el-card>{{ item.message }}</el-card>
+                  </el-col>
+                </el-row>
+              </div>
+              </div>
+              <el-row class="btnPosition">
+                <el-col :span="18">
+                  <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 1, maxRows: 4}"
+                    placeholder="请输入内容"
+                    v-model="textarea3">
+                  </el-input>
+                </el-col>
+                <el-col :span="4" :offset="2">
+                  <el-button style="height: 100%; width: 100%"type="success">发送</el-button>
+                </el-col>
+              </el-row>
             </el-card>
           </template>
         </el-row>
         <el-row>
-          <template v-if="user_type == 1">
+          <template v-if="$store.state.user_type == 'contractor'">
             <h2>图纸实际价格</h2>
             <el-card>
               <p>灯具价格</p>
@@ -82,7 +110,6 @@ export default{
   data () {
     return {
       bool: true,
-      user_type: 2,
       options: [{
         value: '选项1',
         label: '黄金糕'
@@ -99,6 +126,15 @@ export default{
         value: '选项5',
         label: '北京烤鸭'
       }],
+      items: [
+      { user_type: 'account', user_id: 'ID2', message: 'Foo' },
+      { user_type: 'designer', user_id: 'ID3', message: 'Bar' },
+      { user_type: 'account', user_id: 'ID2', message: 'hafuhafu' },
+      { user_type: 'designer', user_id: 'ID3', message: 'Bar' },
+      { user_type: 'designer', user_id: 'ID3', message: 'Bar' },
+      { user_type: 'designer', user_id: 'ID3', message: 'Bar' },
+      { user_type: 'designer', user_id: 'ID3', message: 'Bar' }
+      ],
       value: ''
     }
   },
