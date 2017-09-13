@@ -19,3 +19,10 @@ class get_all_supplyinfo(generics.ListCreateAPIView):
     queryset = supply.objects.all()
     serializer_class = supplySerializer
 
+class AccountList(generics.ListCreateAPIView):
+    queryset = account.objects.all()
+    serializer_class = accountSerializer
+
+class AccountDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = account.objects.all()
+    serializer_class = accountSerializer
