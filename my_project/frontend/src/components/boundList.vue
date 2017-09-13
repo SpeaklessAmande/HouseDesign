@@ -20,7 +20,7 @@
   <div>
   <el-table
     ref="multipleTable"
-    :data="tableData3"
+    :data="tableData"
     border
     tooltip-effect="dark"
     height="500"
@@ -32,7 +32,7 @@
     <el-table-column
       label="订单名称"
       >
-      <template scope="scope">{{ scope.row.date }}</template>
+      <template scope="scope">{{ scope.row.build_name }}</template>
     </el-table-column>
   </el-table>
   <div style="margin-top: 20px">
@@ -50,65 +50,36 @@ export default {
   data () {
     return {
       currentFinace: ['123', '2678', '290', '427', '565'],
-      tableData3: [{
-        date: '2016-05-03'
-      }, {
-        date: '2016-05-02'
-      }, {
-        date: '2016-05-04'
-      }, {
-        date: '2016-05-01'
-      }, {
-        date: '2016-05-08'
-      }, {
-        date: '2016-05-06'
-      }, {
-        date: '2016-05-07'
-      }, {
-        date: '2016-05-03'
-      }, {
-        date: '2016-05-02'
-      }, {
-        date: '2016-05-04'
-      }, {
-        date: '2016-05-01'
-      }, {
-        date: '2016-05-08'
-      }, {
-        date: '2016-05-06'
-      }, {
-        date: '2016-05-07'
-      }]
+      tableData: []
     }
   },
   created () {
     var self = this
-        // var id = self.$route.params.id;
-    axios.get('/test/car/', {})
+    // var load = {'user_id': '1'}
+    axios.get('/back/userCost/1', {'user_id': '1'})
          .then(function (response) {
-           self.table = response.data
-           this.$store.state.car_model_id = response.data[0].car_model_id
+           self.tableData = response.data
          })
          .catch(e => {
            this.errors.push(e)
          })
   },
   methods: {
-    deleteCar (event) {
-      var self = this
-      console.log(event)
-      axios.post('/test/car/', {
-        'statu': 'delete',
-        'car_num': [event]
-      })
-            .then(function (response) {
-              self.$message('删除成功')
-            })
-            .catch(e => {
-              self.$message('删除失败')
-              this.errors.push(e)
-            })
-    }
+    // deleteCar (event) {
+    //   var self = this
+    //   console.log(event)
+    //   axios.post('/test/car/', {
+    //     'statu': 'delete',
+    //     'car_num': [event]
+    //   })
+    //         .then(function (response) {
+    //           self.$message('删除成功')
+    //         })
+    //         .catch(e => {
+    //           self.$message('删除失败')
+    //           this.errors.push(e)
+    //         })
+    // }
   }
 }
 </script>
