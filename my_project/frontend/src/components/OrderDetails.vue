@@ -55,7 +55,8 @@
               </el-select>
           </template>
           <template v-if="user_type == 2">
-            <el-card :body-style="{}">
+            <h2>与您的<span v-if="user_type == 2">设计师</span><span v-if="user_type == 3"></span>交流</h2>
+            <el-card :body-style="{ padding: '0px' }">
             </el-card>
           </template>
         </el-row>
