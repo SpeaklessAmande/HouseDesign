@@ -50,3 +50,9 @@ class accountSerializer(serializers.ModelSerializer):
         model=account 
         fields=('account_id','account_name','account_layout','builds')
 
+
+class bidSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = bid
+        fields = ('bid_id','bid_contractor_id','bid_build_id','bid_supply_id')

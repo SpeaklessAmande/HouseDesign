@@ -150,7 +150,7 @@ class bid(models.Model):
     bid_id = models.AutoField(primary_key=True,verbose_name='竞标id')
     bid_contractor_id = models.ForeignKey(contractor,related_name='bidcontractorId')
     bid_build_id = models.ForeignKey(build,related_name='bidBuildId')
-
+    bid_supply_id = models.ForeignKey(supply,null=True,related_name='bidSupply')#向已有数据项的数据库中添加数据项
     def __str__(self):
         return str(self.bid_id)
 

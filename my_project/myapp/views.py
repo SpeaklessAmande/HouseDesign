@@ -173,3 +173,41 @@ def blueprint_first(request):
             #   build = 
             #根据订单id查询所有供应商的所有信息
     return  Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET','POST'])
+def addComment(request):
+    if (request.method == 'POST'):
+        #comment_content = request.data['comment_content']
+        #build_id = request.data['build_id']
+        #user_id = request.data['user_id']
+        comment_serializer = commentSerializer(data=request.data)
+        if comment_serializer.is_valid():
+            comment_serializer.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)        
+
+@api_view(['GET','POST'])
+def addBid(request):
+    if(request.method == 'POST'):
+        bid_serializer = bidSerializer(data=request.data)
+        if bid_serializer.is_valid():
+            bid_serializer.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET','POST'])
+def confirmNode(request):
+    if(request.method == 'POST'):
+        build_id = request.data['build_id']
+        log_set = log.objects.filter(log_build_id_id__exact=build_id)
+        for log_item in log_set:
+            if(request.data['node_number']==3):
+                log_item.log_accept = datetime.datetime.now().date()
+            elif(request.data['node_number']==2):
+                log_item.log_construction = datetime.datetime.now().date()
+            else:
+                log_item.log_tender = datetime.datetime.now().date()
+            log_item.save()
+            return Response(logSerializer(log_item).data,status=status.HTTP_200_OK)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
