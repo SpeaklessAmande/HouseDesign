@@ -37,8 +37,8 @@
           var self = this
           console.log(self.form.account)
           axios.post('/back/login/', {
-            admin_tel: self.form.account,
-            admin_pas: self.form.password
+            user_tel: self.form.account,
+            user_pas: self.form.password
           }).then(function (response) {
             self.$message('登录成功')
             self.$store.state.user_id = response.data['user_id']
