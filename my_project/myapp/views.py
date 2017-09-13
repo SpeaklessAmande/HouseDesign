@@ -88,7 +88,6 @@ def login(request):
 
             return Response(user_list,status=status.HTTP_200_OK) 
     
-<<<<<<< HEAD
     return  Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET','POST'])
@@ -155,6 +154,4 @@ def blueprint_first(request):
             #   build = 
             #根据订单id查询所有供应商的所有信息
     return  Response(status=status.HTTP_204_NO_CONTENT)
-=======
     return  Response(status=status.HTTP_404_NOT_FOUND)
->>>>>>> 68087e47b8a26428d743e5ff068289557c19ca66
