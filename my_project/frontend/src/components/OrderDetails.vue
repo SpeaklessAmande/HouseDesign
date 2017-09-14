@@ -125,10 +125,10 @@ export default{
       if (self.comment_input.length === 0) {
         self.$message('输入不能为空')
       } else {
-        axios.post('/back/unknown', {
+        axios.post('/back/comment', {
           comment_content: self.comment_input,
-          build_id: self.$route.params.id,
-          user_id: self.$store.state.user_id
+          comment_build_id: self.$route.params.id,
+          comment_user_id: self.$store.state.user_id
         }).then(function (response) {
           self.$message('评论成功')
         }).catch(e => {
@@ -143,10 +143,10 @@ export default{
       if (self.selected_supply.length === 0) {
         self.$message('请选择一个供应商')
       } else {
-        axios.post('/back/unknown', {
-          build_id: self.$route.params.id,
-          supply_id: self.selected_supply,
-          contractor_id: self.$store.state.user_id
+        axios.post('/back/bid', {
+          bid_build_id: self.$route.params.id,
+          bid_supply_id: self.selected_supply,
+          bid_contractor_id: self.$store.state.user_id
         }).then(function (response) {
           self.$message('竞标成功')
         }).catch(e => {
@@ -158,8 +158,9 @@ export default{
     submit_log () {
       var self = this
       // need certain URL
-      axios.post('/back/unknown', {
-      // need to know what to post
+      axios.post('/back/confirm', {
+        build_id: self.$route.params.id,
+        node_number: self.node_number
       }).then(function (response) {
         self.$message('确认成功')
       }).catch(e => {
