@@ -18,7 +18,7 @@ class buildSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=build
-        fields=('build_id','build_name','build_account_id','build_designer','build_blueprint','build_blueprint_price','build_date','build_wood','build_light','build_floor','build_furniture','build_supply','build_contractor','build_delete_status')
+        fields=('build_id','build_name','build_account_id','build_designer','build_blueprint','build_blueprint_price','build_date','build_wood','build_wood_price','build_light','build_light_price','build_floor','build_floor_price','build_furniture','build_furniture_price','build_supply','build_contractor','build_delete_status')
 
 class logSerializer(serializers.ModelSerializer):
 

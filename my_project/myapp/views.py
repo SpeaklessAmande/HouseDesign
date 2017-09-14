@@ -52,6 +52,16 @@ def get_bill(request,pk,format=None):
                     user_money = dict()
     return Response(user_money,status.HTTP_200_OK)
 
+@api_view(['GET','PUT','DELETE'])
+def get_joinOrder(request,pk,format=None):
+    try:
+        build_ = build.objects.get(build_account_id=pk)
+    except build.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+    build_ = buildSerializer(build_)
+    return Response(build_.data,status.HTTP_200_OK)
+
+
 class AccountList(generics.ListCreateAPIView):
     queryset = account.objects.all()
     serializer_class = accountSerializer
