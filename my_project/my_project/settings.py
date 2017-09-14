@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         #'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+        'myapp.disable.CsrfExemptSessionAuthentication',  # path of CsrfExemptSessionAuthentication class
+        
     ],
     'PAGE_SIZE': 6
 }
@@ -52,10 +55,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'myapp.disable.DisableCSRF',
 ]
 
 ROOT_URLCONF = 'my_project.urls'
