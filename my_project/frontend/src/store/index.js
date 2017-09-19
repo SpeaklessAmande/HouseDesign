@@ -7,11 +7,11 @@ Vue.use(Vuex)
 // each Vuex instance is just a single state tree.
 const state = {
   // 用户ID
-  user_id: 132,
+  user_id: 1,
   // 用户类型
   user_type: 'account',
   // 用户名称
-  user_name: 'Kenny'
+  user_name: '郑杰'
 }
     // mutations are operations that actually mutates the state.
     // each mutation handler gets the entire state tree as the
