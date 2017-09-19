@@ -109,7 +109,7 @@ def getCommentList(build_id,user_id):
     #user_id = self.user_id
     comment_list = []
     i=1
-    print(comment.objects.all())
+    #print(comment.objects.all())
     for comment_item in comment.objects.all():
         if(comment_item.comment_build_id.build_id == build_id and i<=6):
             comment_end_item = {}
@@ -186,17 +186,21 @@ def blueprint_first(request):
             #   build = 
             #根据订单id查询所有供应商的所有信息
     return  Response(status=status.HTTP_204_NO_CONTENT)
-
+#{"comment_content":"contet","user_id":132,"build_id":1}
 @api_view(['GET','POST'])
 def addComment(request):
     if (request.method == 'POST'):
         #comment_content = request.data['comment_content']
         #build_id = request.data['build_id']
         #user_id = request.data['user_id']
+        if(user.objects.filter(user_id=request.data["user_id"]).exists()==False):
+            return Response("用户不存在",status=status.HTTP_400_BAD_REQUEST)
         comment_serializer = commentSerializer(data=request.data)
         if comment_serializer.is_valid():
+            print(comment_serializer.data['comment_content'])
             comment_serializer.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(comment_serializer.data,status=status.HTTP_200_OK)
+        
     return Response(status=status.HTTP_204_NO_CONTENT)        
 
 @api_view(['GET','POST'])
