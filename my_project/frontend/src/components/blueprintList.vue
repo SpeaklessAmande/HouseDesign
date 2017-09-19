@@ -30,7 +30,9 @@ export default {
   created () {
     var self = this
     var id = self.$store.state.user_id
-    axios.get('/back/joinOrder', {'user_id': id})
+    axios.get('/back/joinOrder', {params: {
+      'user_id': id
+    }})
     .then(function (response) {
       self.order = response.data
     })

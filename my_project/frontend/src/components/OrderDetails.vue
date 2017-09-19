@@ -125,12 +125,16 @@ export default{
       if (self.comment_input.length === 0) {
         self.$message('输入不能为空')
       } else {
-        axios.post('/back/comment', {
+        axios.post('/back/comment/', {
           comment_content: self.comment_input,
           comment_build_id: self.$route.params.id,
           comment_user_id: self.$store.state.user_id
         }).then(function (response) {
           self.$message('评论成功')
+          if (self.comments.length >= 6) {
+            self.comments.shift()
+          }
+          self.comments.push({user_type: self.$store.state.user_type, comment_name: self.$store.state.user_name, comment_content: self.comment_input})
         }).catch(e => {
           self.$message('评论失败')
           this.errors.push(e)
@@ -143,7 +147,7 @@ export default{
       if (self.selected_supply.length === 0) {
         self.$message('请选择一个供应商')
       } else {
-        axios.post('/back/bid', {
+        axios.post('/back/bid/', {
           bid_build_id: self.$route.params.id,
           bid_supply_id: self.selected_supply,
           bid_contractor_id: self.$store.state.user_id
@@ -158,7 +162,7 @@ export default{
     submit_log () {
       var self = this
       // need certain URL
-      axios.post('/back/confirm', {
+      axios.post('/back/confirm/', {
         build_id: self.$route.params.id,
         node_number: self.node_number
       }).then(function (response) {
@@ -201,30 +205,30 @@ export default{
       return this.actual_wood_price + this.actual_light_price + this.actual_floor_price + this.actual_furniture_price
     }
   },
-  created: {
-    function () {
-      var self = this
-      axios.post('/back/blueprint/', {
-        user_type: self.$store.state.user_type,
-        user_id: self.$store.state.user_id,
-        build_id: self.$route.params.id
-      }).then(function (response) {
-        if (self.$route.state.user_type === 'account') {
-          self.node_number = response.data[0]
-          self.comments = response.data[1]
-          self.build = response.data[2]
-        } else if (self.$route.state.user_type === 'designer') {
-          self.comments = response.data[0]
-          self.build = response.data[1]
-        } else if (self.$route.state.user_type === 'contractor') {
-          self.supplys = response.data[0]
-          self.build = response.data[1]
-        }
-      }).catch(e => {
-        self.$message('cant get anything')
-        this.errors.push(e)
-      })
-    }
+  created () {
+    var self = this
+    axios.post('/back/blueprint/', {
+      user_type: self.$store.state.user_type,
+      user_id: self.$store.state.user_id,
+      build_id: Number(self.$route.params.id)
+    }).then(function (response) {
+      console.log('blueprint created')
+      if (self.$store.state.user_type === 'account') {
+        self.node_number = response.data[0]
+        self.comments = response.data[1]
+        self.build = response.data[2]
+      } else if (self.$store.state.user_type === 'designer') {
+        self.comments = response.data[0]
+        self.build = response.data[1]
+      } else if (self.$store.state.user_type === 'contractor') {
+        self.supplys = response.data[0]
+        self.build = response.data[1]
+      }
+    }).catch(e => {
+      console.log(e)
+      self.$message('cant get anything')
+      self.errors.push(e)
+    })
   }
 }
 </script>
