@@ -52,15 +52,38 @@ def get_bill(request,pk,format=None):
                 except:
                     user_money = dict()
     return Response(user_money,status.HTTP_200_OK)
+@api_view(['GET','PUT'])
+def get_order_list(request,ac,format=None):
+    try:
+        build_id = build.objects.filter(build_account_id=ac)
+    except:
+        return Response(status.HTTP_404_NOT_FOUND)
+    build_idList = dict()
+    build_idList['build_account_id']=list()
+    for build_item in build_id:
+        build_item = buildSerializer(build_item).data
+        build_idList['build_account_id'].append(build_item['build_id'])    
+    return Response(build_idList,status.HTTP_200_OK)
 
 @api_view(['GET','PUT','DELETE'])
-def get_joinOrder(request,pk,format=None):
+def get_joinOrder(request,ac,format=None):
     try:
-        build_ = build.objects.get(build_account_id=pk)
+        build_ = build.objects.get(build_id=ac)
     except build.DoesNotExist:
         return Response(status.HTTP_404_NOT_FOUND)
     build_ = buildSerializer(build_)
     return Response(build_.data,status.HTTP_200_OK)
+
+#添加新订单
+@api_view(['GET','POST'])
+def add_build(request):
+    if(request.method == 'POST'):
+        add_build_serializer = buildSerializer(data=request.data)
+        print(add_build_serializer.is_valid())
+        if add_build_serializer.is_valid():
+            add_build_serializer.save()
+            return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class AccountList(generics.ListCreateAPIView):
