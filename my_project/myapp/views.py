@@ -1,11 +1,12 @@
 from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
+
 from .models import *
 from .serializer import *
 import datetime
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
 class UserList(generics.ListCreateAPIView):
     queryset = user.objects.all()
@@ -96,6 +97,8 @@ class AccountDetail(generics.RetrieveUpdateDestroyAPIView):
 
 #*_set filter返回的queryset集合
 #*_object get方法返回的对象
+
+
 
 
 @api_view(['GET','POST'])
