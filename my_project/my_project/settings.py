@@ -45,7 +45,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         #'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.AllowAny',
-        'myapp.disable.CsrfExemptSessionAuthentication',  # path of CsrfExemptSessionAuthentication class
+        #'myapp.disable.CsrfExemptSessionAuthentication',  # path of CsrfExemptSessionAuthentication class
         
     ],
     'PAGE_SIZE': 6

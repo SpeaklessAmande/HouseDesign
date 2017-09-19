@@ -45,10 +45,10 @@ class designerSerializer(serializers.ModelSerializer):
         fields=('designer_id','designer_name','designer_money')
 
 class accountSerializer(serializers.ModelSerializer):
-    builds = serializers.PrimaryKeyRelatedField(many=True, queryset=account.objects.all())
+    #builds = serializers.PrimaryKeyRelatedField(many=True, queryset=account.objects.all())
     class Meta:
         model=account 
-        fields=('account_id','account_name','account_layout','builds')
+        fields=('account_id','account_name','account_layout')
 
 
 class bidSerializer(serializers.ModelSerializer):

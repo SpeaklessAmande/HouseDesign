@@ -27,7 +27,8 @@ class get_one_supplyinfo(generics.RetrieveUpdateDestroyAPIView):
 
 #查询用户所有的流水账单
 @api_view(['GET','PUT','DELETE'])
-def get_bill(request,pk,format=None):
+def get_bill(request,format=None):
+    pk = request.GET.get('user_id')
     try:
         user_ = user.objects.get(pk=pk)
     except user.DoesNotExist:
@@ -53,7 +54,8 @@ def get_bill(request,pk,format=None):
                     user_money = dict()
     return Response(user_money,status.HTTP_200_OK)
 @api_view(['GET','PUT'])
-def get_order_list(request,ac,format=None):
+def get_order_list(request,format=None):
+    ac = request.GET.get('build_account_id')
     try:
         build_id = build.objects.filter(build_account_id=ac)
     except:
@@ -66,7 +68,8 @@ def get_order_list(request,ac,format=None):
     return Response(build_idList,status.HTTP_200_OK)
 
 @api_view(['GET','PUT','DELETE'])
-def get_joinOrder(request,ac,format=None):
+def get_joinOrder(request,format=None):
+    ac = request.GET.get('build_id')
     try:
         build_ = build.objects.get(build_id=ac)
     except build.DoesNotExist:
@@ -85,6 +88,24 @@ def add_build(request):
             return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+#查询对应用户所有订单的承包商
+@api_view(['GET','POST'])
+def get_bid_contractor(request,format=None):
+    build_id = request.GET.get('build_id')
+    try:
+        bid_list = bid.objects.filter(bid_build_id=build_id)
+    except:
+        return Response(status.HTTP_404_NOT_FOUND)
+    bid_contracter_list = set()
+    for bid_item in bid_list:
+        bid_item = bidSerializer(bid_item).data
+        try:
+            bid_contractor_item = contractor.objects.get(contractor_id=bid_item['bid_contrractor_id'])
+        except:
+            continue
+        bid_contractor_item = contractorSerializer(bid_contractor_item).data
+        bid_contracter_list.add(bid_contractor_item)
+    return Response(bid_contracter_list,status.HTTP_200_OK)
 
 class AccountList(generics.ListCreateAPIView):
     queryset = account.objects.all()
